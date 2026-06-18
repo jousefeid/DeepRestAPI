@@ -1,0 +1,6 @@
+@DeepRestAPI_HostAddress = http://localhost:5035
+
+GET {{DeepRestAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
