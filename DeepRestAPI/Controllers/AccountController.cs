@@ -17,7 +17,7 @@ namespace DeepRestAPI.Controllers
             _userManager = userManager;
         }
 
-        [HttpPost]
+        [HttpPost("Register")]
         public async Task<IActionResult> RegisterNewUser(DtoNewUser user)
         {
             if (ModelState.IsValid)
@@ -40,6 +40,25 @@ namespace DeepRestAPI.Controllers
                     }
                 }
             }
+            return BadRequest(ModelState);
+        }
+
+        [HttpPost("Login")]
+        public async Task<IActionResult> LogIn(DtoLogin login)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByNameAsync(login.userName);
+                if (user != null && await _userManager.CheckPasswordAsync(user, login.password))
+                {
+                    return Ok(new { message = "Login successful" });
+                }
+                else
+                {
+                    ModelState.AddModelError("InvalidLogin", "Invalid username or password");
+                }
+            }
+
             return BadRequest(ModelState);
         }
     }
