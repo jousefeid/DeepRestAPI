@@ -1,4 +1,6 @@
 using DeepRestAPI.Data;
+using DeepRestAPI.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseLazyLoadingProxies()
     .UseSqlServer(builder.Configuration.GetConnectionString("DeepApi")));
+
+builder.Services.AddIdentity<APPUser,IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
 
 builder.Services.AddControllers().AddNewtonsoftJson();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
